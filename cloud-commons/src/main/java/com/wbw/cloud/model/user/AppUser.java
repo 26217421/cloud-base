@@ -45,7 +45,7 @@ public class AppUser implements Serializable {
     /**
      * 状态（1有效,0无效）
      */
-    private Integer enabled;
+    private Boolean enabled;
     /**
      * 类型（暂未用）
      */
@@ -116,11 +116,11 @@ public class AppUser implements Serializable {
         this.sex = sex;
     }
 
-    public Integer getEnabled() {
+    public Boolean getEnabled() {
         return enabled;
     }
 
-    public void setEnabled(Integer enabled) {
+    public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
 

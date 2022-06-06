@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @since 2022-06-06 19:45:01
  */
 @Data
-public class TWechat implements Serializable {
+public class WechatUserInfo implements Serializable {
     private static final long serialVersionUID = -27584846841866752L;
     /**
      * 自增id

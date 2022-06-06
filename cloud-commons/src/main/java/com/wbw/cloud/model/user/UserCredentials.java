@@ -2,6 +2,7 @@ package com.wbw.cloud.model.user;
 
 import lombok.Data;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -12,6 +13,7 @@ import java.io.Serializable;
  */
 @Data
 public class UserCredentials implements Serializable {
+    @Serial
     private static final long serialVersionUID = 118941487623325804L;
     /**
      * 用户名或手机号等
@@ -19,37 +21,13 @@ public class UserCredentials implements Serializable {
     private String username;
     /**
      * 账号类型（用户名、手机号）
+     * @see com.wbw.cloud.constants.CredentialType
      */
     private String type;
     /**
      * 用户id
      */
     private Integer userid;
-
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Integer getUserid() {
-        return userid;
-    }
-
-    public void setUserid(Integer userid) {
-        this.userid = userid;
-    }
 
 }
 
