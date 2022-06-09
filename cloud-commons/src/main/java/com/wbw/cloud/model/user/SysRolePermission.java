@@ -16,7 +16,7 @@ public class SysRolePermission implements Serializable {
     /**
      * 角色id
      */
-    private Integer roleId;
+    private Long roleId;
     /**
      * 权限id
      */

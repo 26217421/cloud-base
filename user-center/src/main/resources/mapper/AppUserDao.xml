@@ -114,33 +114,6 @@
         values (#{username}, #{password}, #{nickname}, #{headimgurl}, #{phone}, #{sex}, #{enabled}, #{type}, #{createtime}, #{updatetime})
     </insert>
 
-    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into app_user(username, password, nickname, headImgUrl, phone, sex, enabled, type, createTime, updateTime)
-        values
-        <foreach collection="entities" item="entity" separator=",">
-        (#{entity.username}, #{entity.password}, #{entity.nickname}, #{entity.headimgurl}, #{entity.phone}, #{entity.sex}, #{entity.enabled}, #{entity.type}, #{entity.createtime}, #{entity.updatetime})
-        </foreach>
-    </insert>
-
-    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into app_user(username, password, nickname, headImgUrl, phone, sex, enabled, type, createTime, updateTime)
-        values
-        <foreach collection="entities" item="entity" separator=",">
-            (#{entity.username}, #{entity.password}, #{entity.nickname}, #{entity.headimgurl}, #{entity.phone}, #{entity.sex}, #{entity.enabled}, #{entity.type}, #{entity.createtime}, #{entity.updatetime})
-        </foreach>
-        on duplicate key update
-        username = values(username),
-        password = values(password),
-        nickname = values(nickname),
-        headImgUrl = values(headImgUrl),
-        phone = values(phone),
-        sex = values(sex),
-        enabled = values(enabled),
-        type = values(type),
-        createTime = values(createTime),
-        updateTime = values(updateTime)
-    </insert>
-
     <!--通过主键修改数据-->
     <update id="update">
         update app_user
