@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wbw.cloud.dao.WechatDao">
 
-    <resultMap type="com.wbw.cloud.entity.Wechat" id="WechatMap">
+    <resultMap type="com.wbw.cloud.model.user.WechatUserInfo" id="WechatMap">
         <result property="id" column="id" jdbcType="INTEGER"/>
         <result property="openid" column="openid" jdbcType="VARCHAR"/>
         <result property="unionid" column="unionid" jdbcType="VARCHAR"/>

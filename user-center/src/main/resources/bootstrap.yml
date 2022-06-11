@@ -1,0 +1,18 @@
+server:
+  port: 9000
+
+spring:
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
+      config:
+        password: nacos
+        username: nacos
+        file-extension: yml
+        name: user-center.yml
+        group: local
+        namespace: 498ec4df-5575-43b8-be45-fe0b99804b2f
+
+
+  application:
+    name: user-center
