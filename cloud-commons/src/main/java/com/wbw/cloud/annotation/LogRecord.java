@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
  */
 @Target({ ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface LogAnnotation {
+public @interface LogRecord {
 
     /**
      * 日志模块

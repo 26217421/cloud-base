@@ -11,6 +11,7 @@
         <module>config-center</module>
         <module>user-center</module>
         <module>cloud-commons</module>
+        <module>log-center</module>
     </modules>
     <packaging>pom</packaging>
 
