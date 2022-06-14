@@ -1,5 +1,6 @@
 package com.wbw.cloud.model.user;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;
@@ -12,6 +13,7 @@ import java.io.Serializable;
  * @since 2022-06-06 19:45:01
  */
 @Data
+@Builder
 public class AppUser implements Serializable {
     private static final long serialVersionUID = 782550012519159874L;
     /**
