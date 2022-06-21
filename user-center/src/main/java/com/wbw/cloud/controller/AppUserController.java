@@ -1,5 +1,6 @@
 package com.wbw.cloud.controller;
 
+import com.wbw.cloud.annotation.LogRecord;
 import com.wbw.cloud.model.Page;
 import com.wbw.cloud.model.user.AppUser;
 import com.wbw.cloud.model.user.LoginAppUser;
@@ -38,12 +39,12 @@ public class AppUserController {
     }
 
     /**
-     * 查找用户
      * 用户查询
      *
      * @param params 参数
      * @return {@link Page}<{@link AppUser}>
      */
+    @LogRecord(module = "用户查询")
     @GetMapping("/users")
     public Page<AppUser> findUsers(@RequestParam Map<String, Object> params) {
         return userService.findUsers(params);

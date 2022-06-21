@@ -43,8 +43,13 @@ public record LogMqUtil(AmqpTemplate amqpTemplate) {
                 amqpTemplate.convertAndSend(LogQueue.LOG_QUEUE, log);
                 logger.info("发送日志到队列：{}", log);
             } catch (Exception e2) {
-                e2.printStackTrace();
+                logger.error(e2.getMessage(), e2);
             }
         });
+    }
+
+    public void sendLogMsg(Log record) {
+        amqpTemplate.convertAndSend(LogQueue.LOG_QUEUE, record);
+        logger.info("发送日志到队列：{}", record);
     }
 }

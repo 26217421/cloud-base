@@ -1,12 +1,17 @@
 package com.wbw.cloud.service.impl;
 
+import com.wbw.cloud.dao.AppUserDao;
 import com.wbw.cloud.model.Page;
 import com.wbw.cloud.model.user.AppUser;
 import com.wbw.cloud.model.user.LoginAppUser;
 import com.wbw.cloud.model.user.SysRole;
 import com.wbw.cloud.service.AppUserService;
+import com.wbw.cloud.utils.PageUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -16,6 +21,13 @@ import java.util.Set;
  */
 @Service
 public class AppUserServiceImpl implements AppUserService {
+    final
+    AppUserDao userDao;
+
+    public AppUserServiceImpl(AppUserDao userDao) {
+        this.userDao = userDao;
+    }
+
     /**
      * 添加应用用户
      *
@@ -89,7 +101,15 @@ public class AppUserServiceImpl implements AppUserService {
      */
     @Override
     public Page<AppUser> findUsers(Map<String, Object> params) {
-        return null;
+        int total = 0;
+        List<AppUser> userList = Collections.emptyList();
+        PageUtil.pageParamConver(params, true);
+        userList = userDao.queryAllByLimit(params);
+        total = userList.size();
+        if(total == 0) {
+            userList = null;
+        }
+        return new Page<>(total, userList);
     }
 
     /**

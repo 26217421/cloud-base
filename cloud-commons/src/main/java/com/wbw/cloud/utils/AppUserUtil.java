@@ -8,6 +8,8 @@ import com.wbw.cloud.model.user.LoginAppUser;
  */
 public class AppUserUtil {
     public static LoginAppUser getLoginAppUser() {
-        return (LoginAppUser) LoginAppUser.builder().username("test").build();
+        LoginAppUser loginAppUser = new LoginAppUser();
+        loginAppUser.setUsername("aa");
+        return loginAppUser;
     }
 }

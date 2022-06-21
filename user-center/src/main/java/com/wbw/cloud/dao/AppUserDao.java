@@ -30,7 +30,7 @@ public interface AppUserDao {
      * @param pageable         分页对象
      * @return 对象列表
      */
-    List<AppUser> queryAllByLimit(AppUser appUser, Map<String, Object> pageable);
+    List<AppUser> queryAllByLimit(Map<String, Object> pageable);
 
     /**
      * 统计总行数
