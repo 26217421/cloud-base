@@ -1,7 +1,8 @@
 package com.wbw.cloud.dao;
 
 import com.wbw.cloud.model.user.SysRole;
-import com.wbw.cloud.model.user.SysRoleUser;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import java.util.Set;
 
@@ -11,6 +12,7 @@ import java.util.Set;
  * @author wbw
  * @since 2022-06-09 01:13:48
  */
+@Mapper
 public interface SysRoleUserDao {
 
     /**
@@ -24,10 +26,12 @@ public interface SysRoleUserDao {
     /**
      * 新增数据
      *
-     * @param sysRoleUser 实例对象
+     *
+     * @param userId
+     * @param roleId
      * @return 影响行数
      */
-    int insert(SysRoleUser sysRoleUser);
+    int insert(@Param("userId") Long userId, @Param("roleId") Long roleId);
 
     /**
      * 通过主键删除数据
@@ -35,7 +39,7 @@ public interface SysRoleUserDao {
      * @param userid 主键
      * @return 影响行数
      */
-    int deleteById(Integer userid);
+    int deleteById(@Param("userId") Long userid, @Param("roleId") Long roleId);
 
 }
 

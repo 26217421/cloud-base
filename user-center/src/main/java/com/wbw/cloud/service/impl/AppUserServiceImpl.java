@@ -1,28 +1,43 @@
 package com.wbw.cloud.service.impl;
 
 import com.wbw.cloud.dao.AppUserDao;
+import com.wbw.cloud.dao.SysRoleDao;
+import com.wbw.cloud.dao.SysRoleUserDao;
 import com.wbw.cloud.model.Page;
 import com.wbw.cloud.model.user.AppUser;
 import com.wbw.cloud.model.user.LoginAppUser;
+import com.wbw.cloud.model.user.SysPermission;
 import com.wbw.cloud.model.user.SysRole;
 import com.wbw.cloud.service.AppUserService;
 import com.wbw.cloud.utils.PageUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
+import org.springframework.util.CollectionUtils;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import javax.annotation.Resource;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author wbw
  * @date 2022-6-12 2:18
  */
+@Slf4j
 @Service
 public class AppUserServiceImpl implements AppUserService {
     final
     AppUserDao userDao;
+
+    @Autowired
+    private SysRoleUserDao userRoleDao;
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     public AppUserServiceImpl(AppUserDao userDao) {
         this.userDao = userDao;
@@ -43,9 +58,12 @@ public class AppUserServiceImpl implements AppUserService {
      *
      * @param appUser 应用用户
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void updateAppUser(AppUser appUser) {
-
+        appUser.setUpdatetime(new Date());
+        userDao.update(appUser);
+        log.info("修改用户：{}", appUser);
     }
 
     /**
@@ -56,6 +74,29 @@ public class AppUserServiceImpl implements AppUserService {
      */
     @Override
     public LoginAppUser findByUsername(String username) {
+        AppUser appUser = userCredentialsDao.findUserByUsername(username);
+        if (appUser != null) {
+            LoginAppUser loginAppUser = new LoginAppUser();
+            BeanUtils.copyProperties(appUser, loginAppUser);
+
+            Set<SysRole> sysRoles = userRoleDao.findRolesByUserId(appUser.getId());
+            loginAppUser.setSysRoles(sysRoles);// 设置角色
+
+            if (!CollectionUtils.isEmpty(sysRoles)) {
+                Set<Long> roleIds = sysRoles.parallelStream().map(SysRole::getId).collect(Collectors.toSet());
+                Set<SysPermission> sysPermissions = sysPermissionService.findByRoleIds(roleIds);
+                if (!CollectionUtils.isEmpty(sysPermissions)) {
+                    Set<String> permissions = sysPermissions.parallelStream().map(SysPermission::getPermission)
+                            .collect(Collectors.toSet());
+
+                    loginAppUser.setPermissions(permissions);
+                }
+
+            }
+
+            return loginAppUser;
+        }
+
         return null;
     }
 
@@ -67,7 +108,7 @@ public class AppUserServiceImpl implements AppUserService {
      */
     @Override
     public AppUser findById(Long id) {
-        return null;
+        return userDao.queryById(id);
     }
 
     /**
@@ -76,9 +117,26 @@ public class AppUserServiceImpl implements AppUserService {
      * @param id      用户id
      * @param roleIds 角色ID
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void setRoleToUser(Long id, Set<Long> roleIds) {
+        AppUser appUser = userDao.queryById(id);
+        try {
+            if (appUser == null) {
+                throw new IllegalArgumentException("用户不存在");
+            }
 
+            userRoleDao.deleteById(id, null);
+            if (!CollectionUtils.isEmpty(roleIds)) {
+                roleIds.forEach(roleId -> {
+                    userRoleDao.insert(id, roleId);
+                });
+            }
+            log.info("修改用户：{}的角色，{}", appUser.getUsername(), roleIds);
+        } catch (Exception e) {
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            log.error(e.getMessage(), e);
+        }
     }
 
     /**
@@ -88,9 +146,22 @@ public class AppUserServiceImpl implements AppUserService {
      * @param oldPassword 旧密码
      * @param newPassword 新建密码
      */
+    @Transactional
     @Override
     public void updatePassword(Long id, String oldPassword, String newPassword) {
+        AppUser appUser = userDao.queryById(id);
+        if (StringUtils.isNoneBlank(oldPassword)) {
+            if (!passwordEncoder.matches(oldPassword, appUser.getPassword())) {
+                throw new IllegalArgumentException("旧密码错误");
+            }
+        }
 
+        AppUser user = new AppUser();
+        user.setId(id);
+        user.setPassword(passwordEncoder.encode(newPassword));
+
+        updateAppUser(user);
+        log.info("修改密码：{}", user);
     }
 
     /**
@@ -101,7 +172,7 @@ public class AppUserServiceImpl implements AppUserService {
      */
     @Override
     public Page<AppUser> findUsers(Map<String, Object> params) {
-        int total = 0;
+        int total;
         List<AppUser> userList = Collections.emptyList();
         PageUtil.pageParamConver(params, true);
         userList = userDao.queryAllByLimit(params);

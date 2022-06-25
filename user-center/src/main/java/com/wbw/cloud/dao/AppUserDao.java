@@ -2,7 +2,6 @@ package com.wbw.cloud.dao;
 
 import com.wbw.cloud.model.user.AppUser;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 import java.util.List;
 import java.util.Map;
 
@@ -21,12 +20,11 @@ public interface AppUserDao {
      * @param id 主键
      * @return 实例对象
      */
-    AppUser queryById(Integer id);
+    AppUser queryById(Long id);
 
     /**
      * 查询指定行数据
      *
-     * @param appUser 查询条件
      * @param pageable         分页对象
      * @return 对象列表
      */
