@@ -38,7 +38,7 @@ public interface SysRolePermissionDao {
      * @param roleid 主键
      * @return 影响行数
      */
-    int deleteById(Integer roleid);
+    int deleteById(@Param("roleId") Long roleId, @Param("permissionId") Long permissionId);
 
 }
 

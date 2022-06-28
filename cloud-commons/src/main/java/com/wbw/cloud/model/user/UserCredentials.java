@@ -1,5 +1,6 @@
 package com.wbw.cloud.model.user;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.io.Serial;
@@ -12,6 +13,7 @@ import java.io.Serializable;
  * @since 2022-06-06 19:45:01
  */
 @Data
+@AllArgsConstructor
 public class UserCredentials implements Serializable {
     @Serial
     private static final long serialVersionUID = 118941487623325804L;
@@ -27,7 +29,7 @@ public class UserCredentials implements Serializable {
     /**
      * 用户id
      */
-    private Integer userid;
+    private Long userid;
 
 }
 

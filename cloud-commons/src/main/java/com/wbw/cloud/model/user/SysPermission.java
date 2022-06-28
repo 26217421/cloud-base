@@ -2,6 +2,7 @@ package com.wbw.cloud.model.user;
 
 import lombok.Data;
 
+import java.io.Serial;
 import java.util.Date;
 import java.io.Serializable;
 
@@ -13,11 +14,12 @@ import java.io.Serializable;
  */
 @Data
 public class SysPermission implements Serializable {
+    @Serial
     private static final long serialVersionUID = -18381882099366869L;
     /**
      * 自增id
      */
-    private Integer id;
+    private Long id;
     /**
      * 权限标识
      */
@@ -29,52 +31,13 @@ public class SysPermission implements Serializable {
     /**
      * 创建时间
      */
-    private Date createtime;
+    private Date createTime;
     /**
      * 修改时间
      */
-    private Date updatetime;
+    private Date updateTime;
 
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getPermission() {
-        return permission;
-    }
-
-    public void setPermission(String permission) {
-        this.permission = permission;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Date getCreatetime() {
-        return createtime;
-    }
-
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
-    }
-
-    public Date getUpdatetime() {
-        return updatetime;
-    }
-
-    public void setUpdatetime(Date updatetime) {
-        this.updatetime = updatetime;
-    }
 
 }
 

@@ -7,6 +7,7 @@ import com.wbw.cloud.model.user.LoginAppUser;
 import com.wbw.cloud.model.user.SysRole;
 import com.wbw.cloud.service.AppUserService;
 import com.wbw.cloud.utils.AppUserUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,6 +22,7 @@ import java.util.Set;
  * @author wbw
  * @date 2022-6-12 1:56
  */
+@Slf4j
 @RestController
 public class AppUserController {
     AppUserService userService;
@@ -28,14 +30,12 @@ public class AppUserController {
 
     @GetMapping("/users/current")
     public LoginAppUser getLoginAppUser() {
-        return null;
-        //return AppUserUtil.getLoginAppUser();
+        return AppUserUtil.getLoginAppUser();
     }
 
     @GetMapping(value = "/users-anon/internal", params = "username")
     public LoginAppUser findByUsername(String username) {
-        //return userService.findByUsername(username);
-        return null;
+        return userService.findByUsername(username);
     }
 
     /**
@@ -70,7 +70,6 @@ public class AppUserController {
     public AppUser register(@RequestBody AppUser appUser) {
         // 用户名等信息的判断逻辑挪到service了
         userService.addAppUser(appUser);
-
         return appUser;
     }
 
@@ -82,8 +81,6 @@ public class AppUserController {
      */
     @PutMapping("/users/me")
     public AppUser updateMe(@RequestBody AppUser appUser) {
-
-
         return appUser;
     }
 
@@ -102,8 +99,8 @@ public class AppUserController {
             throw new IllegalArgumentException("新密码不能为空");
         }
 
-/*        AppUser user = AppUserUtil.getLoginAppUser();
-        userService.updatePassword(user.getId(), oldPassword, newPassword);*/
+        AppUser user = AppUserUtil.getLoginAppUser();
+        userService.updatePassword(user.getId(), oldPassword, newPassword);
     }
 
     /**
@@ -159,7 +156,7 @@ public class AppUserController {
      */
     @PostMapping(value = "/users/binding-phone")
     public void bindingPhone(String phone, String key, String code) {
-        //TODO 绑定手机号
+
     }
 
 

@@ -23,7 +23,7 @@ public interface SysPermissionDao {
      * @param id 主键
      * @return 实例对象
      */
-    SysPermission queryById(Integer id);
+    SysPermission queryById(Long id);
 
 
     /**
@@ -41,15 +41,15 @@ public interface SysPermissionDao {
      * @param pageable         分页对象
      * @return 对象列表
      */
-    List<SysPermission> queryAllByLimit(SysPermission sysPermission, @Param("pageable") Map<String, Object> pageable);
+    List<SysPermission> queryAllByLimit(@Param("pageable") Map<String, Object> pageable);
 
     /**
-     * 统计总行数
+     * 计数
      *
-     * @param sysPermission 查询条件
+     * @param pageable 可分页
      * @return 总行数
      */
-    long count(SysPermission sysPermission);
+    int count(@Param("pageable") Map<String, Object> pageable);
 
     /**
      * 新增数据
@@ -73,7 +73,7 @@ public interface SysPermissionDao {
      * @param id 主键
      * @return 影响行数
      */
-    int deleteById(Integer id);
+    int deleteById(Long id);
 
 }
 

@@ -12,6 +12,7 @@
         <module>user-center</module>
         <module>cloud-commons</module>
         <module>log-center</module>
+        <module>oauth-center</module>
     </modules>
     <packaging>pom</packaging>
 

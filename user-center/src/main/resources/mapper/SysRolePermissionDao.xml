@@ -30,7 +30,15 @@
 
     <!--通过主键删除-->
     <delete id="deleteById">
-        delete from sys_role_permission where roleId = #{roleid}
+        delete from sys_role_permission
+        <where>
+            <if test="permissionId != null">
+                and permissionId = #{permissionId}
+            </if>
+            <if test="roleId != null">
+                and roleId = #{roleId}
+            </if>
+        </where>
     </delete>
 
 </mapper>

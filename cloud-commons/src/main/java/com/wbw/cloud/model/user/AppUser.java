@@ -58,11 +58,11 @@ public class AppUser implements Serializable {
     /**
      * 创建时间
      */
-    private Date createtime;
+    private Date createTime;
     /**
      * 修改时间
      */
-    private Date updatetime;
+    private Date updateTime;
 
 
 }

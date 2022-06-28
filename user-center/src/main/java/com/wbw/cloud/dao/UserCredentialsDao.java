@@ -20,7 +20,7 @@ public interface UserCredentialsDao {
      * @param username 主键
      * @return 实例对象
      */
-    UserCredentials queryById(String username);
+    UserCredentials queryByUsername(String username);
 
     /**
      * 通过username查询AppUser

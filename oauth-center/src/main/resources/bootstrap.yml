@@ -1,5 +1,5 @@
 server:
-  port: 9000
+  port: 9001
 
 spring:
   cloud:
@@ -9,11 +9,9 @@ spring:
         password: nacos
         username: nacos
         file-extension: yml
-        name: user-center.yml
+        name: oauth-center.yml
         group: local
         namespace: 498ec4df-5575-43b8-be45-fe0b99804b2f
 
-
-
   application:
-    name: user-center
+    name: oauth-center
